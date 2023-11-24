@@ -1,15 +1,26 @@
+import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
+from stdimage.models import StdImageField
+
+def get_file_path(_instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return filename
 
 class SistemasChoices(models.IntegerChoices):
     ANDROID = 1, 'Android'
     IOS = 2, 'iOS'
     OUTROS = 3, 'Outros'
+
 class Pessoa(models.Model):   
     nome = models.CharField(_("Nome"), blank=False, max_length=50,)
     cpf = models.CharField(_("cpf"), blank=False, max_length=11, unique=True)
     email = models.CharField(_("Email"), blank=False, max_length=11, unique=True)
     telefone = models.CharField(_("Telefone"), blank=False, max_length=11, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     
 
@@ -86,6 +97,7 @@ class Celular(models.Model):
     ram =models.IntegerField(_("Memória Ram"),  ) 
     armazenamento = models.IntegerField(_("Armazenamento"),)
     preco = models.DecimalField(_("Preço Celular"), blank=False, decimal_places=2, max_digits=10) 
+    imagem = StdImageField(_('Imagem'), null=True, blank=True, upload_to=get_file_path, variations={'thumb': {'width': 420, 'height': 260, 'crop': True}})
     fornecedor = models.ForeignKey(Fornecedor, null=True, on_delete= models.SET_NULL)
    
 

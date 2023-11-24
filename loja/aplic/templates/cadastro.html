@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="flex-container">
+      <div class="form-container">
+        <img src="\media\logo.png" alt="Logo" class="double">
+        <p>Informe seus dados</p>
+        <div class="row">
+          <form action="{% url 'cadastro' %}" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Nome de usuário" name="username"><br>
+            <input type="text" placeholder="Nome" name="nome"><br>
+            <input type="text" placeholder="CPF" name="cpf"><br>
+            <input type="password" placeholder="Senha" name="senha"><br>
+            <input type="submit" class="register-button" value="Cadastrar">
+          </form>
+        </div>
+      </div>
+    </div>
+    
+</body>
+</html>
